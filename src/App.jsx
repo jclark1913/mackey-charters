@@ -84,6 +84,9 @@ function MediaImage({ variant, src, alt }) {
   )
 }
 
+/** Bump this when you replace files in /public/images so the browser loads new files (same URL cache). */
+const SLIDESHOW_ASSET_VERSION = '1'
+
 /** Mixed aspect ratios; shown with object-fit: contain inside a fixed viewport. */
 const captainSlides = [
   {
@@ -105,10 +108,18 @@ const captainSlides = [
 ]
 
 const SLIDE_INTERVAL_MS = 5500
+/** Slower advance when the OS requests reduced motion (still cycles; use arrows anytime). */
+const SLIDE_INTERVAL_REDUCED_MS = 5500
+
+function slideUrl(src) {
+  if (src.startsWith('/') && !src.includes('?')) {
+    return `${src}?v=${SLIDESHOW_ASSET_VERSION}`
+  }
+  return src
+}
 
 function CaptainSlideshow({ slides }) {
   const [index, setIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
 
   const len = slides.length
   const go = (delta) => {
@@ -116,15 +127,15 @@ function CaptainSlideshow({ slides }) {
   }
 
   useEffect(() => {
-    if (paused || len < 2) return
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return
-    }
+    if (len < 2) return
+    const reduced =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const ms = reduced ? SLIDE_INTERVAL_REDUCED_MS : SLIDE_INTERVAL_MS
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % len)
-    }, SLIDE_INTERVAL_MS)
+    }, ms)
     return () => window.clearInterval(id)
-  }, [paused, len])
+  }, [len])
 
   const onKeyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -138,11 +149,7 @@ function CaptainSlideshow({ slides }) {
   }
 
   return (
-    <div
-      className="captain-slideshow"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
+    <div className="captain-slideshow">
       <div
         className="captain-slideshow__frame"
         role="region"
@@ -153,10 +160,11 @@ function CaptainSlideshow({ slides }) {
       >
         <div className="captain-slideshow__viewport">
           <img
-            src={slides[index].src}
+            key={`${index}-${slides[index].src}`}
+            src={slideUrl(slides[index].src)}
             alt={slides[index].alt}
             className="captain-slideshow__img"
-            loading="lazy"
+            loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
           />
         </div>

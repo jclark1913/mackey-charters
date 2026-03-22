@@ -58,11 +58,7 @@ function HelmIcon({ className }) {
 const photos = {
   banner: {
     src: '/images/main.jfif',
-    alt: 'Motor yacht on calm blue water',
-  },
-  captain: {
-    src: 'https://images.unsplash.com/photo-1605647540924-7262865991c2?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Person at the helm of a sailboat',
+    alt: 'Captain Mackey at sea',
   },
   boat: {
     src: 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1200&q=80',
@@ -85,6 +81,135 @@ function MediaImage({ variant, src, alt }) {
         decoding="async"
       />
     </figure>
+  )
+}
+
+/** Mixed aspect ratios; shown with object-fit: contain inside a fixed viewport. */
+const captainSlides = [
+  {
+    src: '/images/captain1.jfif',
+    alt: 'Captain Mackey at the helm',
+  },
+  {
+    src: '/images/captain2.jfif',
+    alt: 'Looking out over clear water from the deck',
+  },
+  {
+    src: '/images/captain3.jfif',
+    alt: 'Open ocean under a wide sky',
+  },
+  {
+    src: '/images/captain4.jfif',
+    alt: 'Calm water near the shore',
+  },
+]
+
+const SLIDE_INTERVAL_MS = 5500
+
+function CaptainSlideshow({ slides }) {
+  const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  const len = slides.length
+  const go = (delta) => {
+    setIndex((i) => (i + delta + len) % len)
+  }
+
+  useEffect(() => {
+    if (paused || len < 2) return
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return
+    }
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % len)
+    }, SLIDE_INTERVAL_MS)
+    return () => window.clearInterval(id)
+  }, [paused, len])
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      go(-1)
+    }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      go(1)
+    }
+  }
+
+  return (
+    <div
+      className="captain-slideshow"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div
+        className="captain-slideshow__frame"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Captain photos"
+        tabIndex={0}
+        onKeyDown={onKeyDown}
+      >
+        <div className="captain-slideshow__viewport">
+          <img
+            src={slides[index].src}
+            alt={slides[index].alt}
+            className="captain-slideshow__img"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <p className="sr-only" aria-live="polite">
+          Photo {index + 1} of {len}
+        </p>
+        <button
+          type="button"
+          className="captain-slideshow__arrow captain-slideshow__arrow--prev"
+          onClick={() => go(-1)}
+          aria-label="Previous photo"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M15 6l-6 6 6 6"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          className="captain-slideshow__arrow captain-slideshow__arrow--next"
+          onClick={() => go(1)}
+          aria-label="Next photo"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <div className="captain-slideshow__dots" role="tablist" aria-label="Choose slide">
+        {slides.map((slide, i) => (
+          <button
+            key={slide.src}
+            type="button"
+            role="tab"
+            aria-selected={i === index}
+            aria-label={`Show photo ${i + 1}`}
+            className={`captain-slideshow__dot${i === index ? ' captain-slideshow__dot--active' : ''}`}
+            onClick={() => setIndex(i)}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -208,7 +333,7 @@ export default function App() {
           <section id="captain" className="panel" aria-labelledby="captain-heading">
             <div className="panel-accent" aria-hidden="true" />
             <h2 id="captain-heading">The captain</h2>
-            <MediaImage variant="section" {...photos.captain} />
+            <CaptainSlideshow slides={captainSlides} />
             <p className="lead">
               Replace this with your captain&apos;s name, credentials (e.g. USCG
               license class), and years on the water.

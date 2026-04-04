@@ -105,6 +105,60 @@ const captainSlides = [
     src: '/images/captain4.jfif',
     alt: 'Calm water near the shore',
   },
+  {
+    src: '/images/route4.jpg',
+    alt: 'Calm water near the shore',
+  },
+]
+
+const boatSlides = [
+  {
+    src: '/images/comingsoon.jpg',
+    alt: 'Captain Mackey at the helm',
+  },
+]
+
+const routeSlides = [
+  {
+    src: '/images/route1.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route2.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route3.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route5.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route6.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route7.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route8.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route9.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route10.jpg',
+    alt: '',
+  },
+  {
+    src: '/images/route11.jpg',
+    alt: '',
+  },
 ]
 
 const SLIDE_INTERVAL_MS = 5500
@@ -118,7 +172,7 @@ function slideUrl(src) {
   return src
 }
 
-function CaptainSlideshow({ slides }) {
+function PhotoSlideshow({ slides }) {
   const [index, setIndex] = useState(0)
 
   const len = slides.length
@@ -328,9 +382,7 @@ export default function App() {
                 Calm water, local knowledge, room to breathe
               </h1>
               <p className="hero-lead">
-                We run small-group charters focused on safety, comfort, and the
-                stretch of coast we know best. Read on for who runs the boat, what
-                you&apos;ll board, and where we typically cruise.
+                We're a small group of nature lovers offering relaxed, comfortable guided tours around the Detroit River and surrounding waterways.
               </p>
             </div>
             <MediaImage variant="banner" {...photos.banner} />
@@ -340,27 +392,26 @@ export default function App() {
         <div className="wrap sections">
           <section id="captain" className="panel" aria-labelledby="captain-heading">
             <div className="panel-accent" aria-hidden="true" />
-            <h2 id="captain-heading">The captain</h2>
-            <CaptainSlideshow slides={captainSlides} />
+            <h2 id="captain-heading">About Captain Mackey</h2>
+            <PhotoSlideshow slides={captainSlides} />
             <p className="lead">
-              Replace this with your captain&apos;s name, credentials (e.g. USCG
-              license class), and years on the water.
+              Captain Mackey is a the proprietor of Mackey's Charters and President of the Horse Island Yacht Club. A seasoned mariner and nature expert, Captain Mackey has been guiding tours on the Detroit River for over 20 years.
             </p>
             <ul className="facts">
               <li>
                 <span className="fact-label">Experience</span>
-                <span className="fact-value">Brief summary of sea time and local waters</span>
+                <span className="fact-value">Detroit-area native, wildlife enthusiast, experienced seafarer and tour guide. </span>
               </li>
               <li>
                 <span className="fact-label">Focus</span>
                 <span className="fact-value">
-                  Guest comfort, weather judgment, wildlife awareness
+                  Guest comfort, water safety, nature appreciation, and environmental preservation.
                 </span>
               </li>
               <li>
                 <span className="fact-label">Background</span>
                 <span className="fact-value">
-                  Optional: fishing, sailing, marine science, hospitality, etc.
+                  Winner of the 2024 "Cold Plunge Challenge".
                 </span>
               </li>
             </ul>
@@ -368,32 +419,32 @@ export default function App() {
 
           <section id="boat" className="panel" aria-labelledby="boat-heading">
             <div className="panel-accent" aria-hidden="true" />
-            <h2 id="boat-heading">The boat</h2>
-            <MediaImage variant="section" {...photos.boat} />
+            <h2 id="boat-heading">The Boat</h2>
+            {/* <MediaImage variant="section" {...photos.boat} /> */}
+            <PhotoSlideshow slides={boatSlides} />
             <p className="lead">
-              Describe your vessel: make, model, length, year, and what makes it
-              a good charter platform (shade, seating, head, swim ladder, etc.).
+              Mackey Charters is currently updating its aging garbage scow fleet. Check back soon for vessel details for the 2025 season.
             </p>
             <dl className="specs">
               <div>
                 <dt>Name</dt>
-                <dd>Your vessel name</dd>
+                <dd>Coming soon...</dd>
               </div>
               <div>
                 <dt>Type</dt>
-                <dd>Center console / sportfish / cruiser / etc.</dd>
+                <dd>Pontoon riverboat</dd>
               </div>
               <div>
                 <dt>Length</dt>
-                <dd>— ft</dd>
+                <dd>TBD</dd>
               </div>
               <div>
                 <dt>Capacity</dt>
-                <dd>Up to — passengers (per USCG certificate)</dd>
+                <dd>TBD</dd>
               </div>
               <div>
                 <dt>Amenities</dt>
-                <dd>Cooler, Bluetooth audio, life jackets, safety gear — list yours</dd>
+                <dd>Snacks, binoculars, life jackets, safety gear, trash pickers, local knowledge </dd>
               </div>
             </dl>
           </section>
@@ -401,32 +452,27 @@ export default function App() {
           <section id="route" className="panel panel-wide" aria-labelledby="route-heading">
             <div className="panel-accent" aria-hidden="true" />
             <h2 id="route-heading">The route</h2>
-            <MediaImage variant="section" {...photos.route} />
+            <PhotoSlideshow slides={routeSlides} />
             <p className="lead">
-              Outline your usual cruising area: harbors, islands, wildlife spots,
-              or sunset runs. Seasonal notes and typical trip length help guests
-              picture the day.
+              Whether it's a short trot around Horse Island or a full-day excursion up the Huron River, Mackey Charters has a route suitable for any enjoyer of the outdoors. Be sure to ask Captain Mackey about optional excursions!
             </p>
             <div className="route-grid">
               <div className="route-block">
                 <h3>Departure</h3>
                 <p>
-                  Marina or dock name, general area, and any parking or meet-up
-                  details you want public.
+                  Departure is from either the Horse Island Yacht Club launching zone or one of the surrounding parks in the greater Gibraltar area.
                 </p>
               </div>
               <div className="route-block">
-                <h3>On the water</h3>
+                <h3>Routes</h3>
                 <p>
-                  North/south along…, loop around…, optional swim stop at… — keep
-                  it flexible if trips vary with weather.
+                  Full-day and half-day excursions along the Detroit River, Huron River, Lake Erie and surrounding waterways.
                 </p>
               </div>
               <div className="route-block">
-                <h3>Timing</h3>
+                <h3>Optional Excursions</h3>
                 <p>
-                  Half-day vs full-day, typical hours, and how far offshore or
-                  along the coast you usually run.
+                  Mackey Charters also offers kayaking trips, open-water boat maintenance lessons, and more! Ask Captain Mackey about the seasonal "Cold Plunge Challenge"
                 </p>
               </div>
             </div>
@@ -441,12 +487,10 @@ export default function App() {
             <span>Mackey Charters</span>
           </p>
           <p className="footer-note">
-            Informational site only. Add a phone or email here when you&apos;re ready
-            for inquiries. Photos from{' '}
-            <a href="https://unsplash.com" target="_blank" rel="noreferrer noopener">
-              Unsplash
-            </a>
-            .
+            This is an informational website and not an actual business.
+          </p>
+          <p className="footer-note">
+          © Jason Clark 2026
           </p>
         </div>
       </footer>

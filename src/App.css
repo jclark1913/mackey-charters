@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 0.75rem;
-  padding: max(0.65rem, env(safe-area-inset-top)) 0 0.75rem;
+  padding: max(0.65rem, env(safe-area-inset-top)) 0 0.25rem;
 }
 
 .wrap {
@@ -482,7 +482,7 @@
 .lead {
   margin: 0 0 1.35rem;
   color: var(--color-muted);
-  max-width: 52rem;
+  max-width: 75rem;
   font-size: clamp(0.98rem, 0.94rem + 0.2vw, 1.05rem);
   line-height: 1.58;
 }

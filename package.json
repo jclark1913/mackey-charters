@@ -1,6 +1,6 @@
 {
   "name": "mackey-charter-site",
-  "private": true,
+  "homepage" : "https://jclark1913.github.io/mackey-charters",
   "version": "1.0.0",
   "type": "module",
   "scripts": {

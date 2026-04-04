@@ -113,7 +113,7 @@ const captainSlides = [
 
 const boatSlides = [
   {
-    src: '/mackey-charters/images/comingsoon.jpg',
+    src: '/images/comingsoon.jpg',
     alt: 'Captain Mackey at the helm',
   },
 ]
